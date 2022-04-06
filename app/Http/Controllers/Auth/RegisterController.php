@@ -52,5 +52,4 @@ class RegisterController extends Controller
     $user = User::findOrfail(Auth::id());
     return view('auth.update', compact('user'));
   }
-
 }
