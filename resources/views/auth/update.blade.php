@@ -13,8 +13,8 @@
         <form action="{{ url('registerupdate') }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("PUT")
-            <div class="card-body">
-                <div class="form-group">
+            <div class="row card-body">
+                <div class="col-md-6 form-group">
                     <label for="exampleInputEmail1">Name</label>
                     @error('name')
                         <p style="color: red">{{ $message }}</p>
@@ -23,7 +23,7 @@
                         placeholder="Profile Name">
                 </div>
 
-                <div class="form-group">
+                <div class="col-md-6 form-group">
                     <label for="exampleInputEmail1">Username</label>
                     @error('username')
                         <p style="color: red">{{ $message }}</p>
@@ -32,7 +32,7 @@
                         id="exampleInputEmail1" placeholder="username">
                 </div>
 
-                <div class="form-group">
+                <div class="col-md-6 form-group">
                     <label for="exampleInputPassword1">Email</label>
                     @error('email')
                         <p style="color: red">{{ $message }}</p>
@@ -41,7 +41,7 @@
                         id="exampleInputPassword1" placeholder="Email">
                 </div>
 
-                <div class="form-group">
+                <div class="col-md-6 form-group">
                     <label for="exampleInputPassword1">Password</label>
                     @error('password')
                         <p style="color: red">{{ $message }}</p>
@@ -49,7 +49,7 @@
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1"
                         placeholder="Password">
                 </div>
-                <div class="form-group">
+                <div class="col-md-12 form-group">
                     @error('img')
                         <p style="color: red">{{ $message }}</p>
                     @enderror
@@ -63,12 +63,12 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ asset('user/'.auth()->user()->img) }}" style="width: 100px" alt="" srcset="">
+                <img src="{{ asset('user/'.auth()->user()->img) }}" alt="" srcset="">
                 <!-- /.card-body -->
 
-                <div class="card-footer">
+                <div class="d-flex justify-content-between col-md-12 ">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="#" class="btn btn-primary">Submit</a>
+                    <a href="" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                 </div>
           </div>
         </form>

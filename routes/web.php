@@ -39,6 +39,7 @@ Route::group(["middleware" => "auth"], function () {
   // registerViewUpdate
   Route::get('registerview', [UserController::class, 'registerview']);
   Route::put('registerupdate', [UserController::class, 'registerupdate']);
+  Route::delete('destoyUser', [UserController::class, 'destoyUser']);
 
 
   // logout

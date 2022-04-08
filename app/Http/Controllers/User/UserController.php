@@ -66,5 +66,7 @@ class UserController extends Controller
 
   public function destoyUser()
   {
+    $user = User::find(Auth::id());
+    dd($user);
   }
 }

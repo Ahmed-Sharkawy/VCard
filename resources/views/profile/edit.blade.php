@@ -13,8 +13,8 @@
     <form action="{{url('update/'.$res->id)}}" method="POST" enctype="multipart/form-data">
       @csrf
       @method("PUT")
-      <div class="card-body">
-        <div class="form-group">
+      <div class="row card-body">
+        <div class="col-md-6 form-group">
           <label for="exampleInputEmail1">profile_name</label>
           @error('profile_name')
             <p style="color: red">{{$message}}</p>
@@ -22,7 +22,7 @@
           <input type="text" name="profile_name" value="{{ $res->profile_name }}" class="form-control" id="exampleInputEmail1" placeholder="Profile Name">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6 form-group">
           <label for="exampleInputEmail1">phone</label>
           @error('phone')
             <p style="color: red">{{$message}}</p>
@@ -30,7 +30,7 @@
           <input type="text" name="phone" value="{{ $res->phone }}" class="form-control" id="exampleInputEmail1" placeholder="Phone">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6 form-group">
           <label for="exampleInputPassword1">Email</label>
           @error('email')
             <p style="color: red">{{$message}}</p>
@@ -38,7 +38,7 @@
           <input type="email" name="email" value="{{ $res->email }}" class="form-control" id="exampleInputPassword1" placeholder="Email">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6 form-group">
           <label for="exampleInputPassword1">facebook</label>
           @error('facebook')
             <p style="color: red">{{$message}}</p>
@@ -46,7 +46,7 @@
           <input type="text" name="facebook" value="{{ $res->fb }}" class="form-control" id="exampleInputPassword1" placeholder="Facebook">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6 form-group">
           <label for="exampleInputPassword1">linkedin</label>
           @error('linkedin')
             <p style="color: red">{{$message}}</p>
@@ -54,7 +54,7 @@
           <input type="text" name="linkedin" value="{{ $res->linkedin }}" class="form-control" id="exampleInputPassword1" placeholder="Linkedin">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-6 form-group">
           <label for="exampleInputPassword1">Github</label>
           @error('github')
             <p style="color: red">{{$message}}</p>
@@ -62,7 +62,7 @@
           <input type="text" name="github" value="{{ $res->github }}" class="form-control" id="exampleInputPassword1" placeholder="Github">
         </div>
 
-        <div class="form-group">
+        <div class="col-md-12 form-group">
           <label for="exampleInputFile">File input</label>
           @error('profile_pic')
             <p style="color: red">{{$message}}</p>
