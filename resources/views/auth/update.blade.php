@@ -68,9 +68,14 @@
 
                 <div class="d-flex justify-content-between col-md-12 ">
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+
                 </div>
           </div>
+        </form>
+        <form class="formupdate" action="{{route('destoyUser')}}" method="post">
+          @csrf
+          @method("DELETE")
+          <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
         </form>
     </div>
 @endsection

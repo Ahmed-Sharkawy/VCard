@@ -14,15 +14,15 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('back/dist/css/adminlte.min.css')}}">
 </head>
-@if ($errors->any())
-          @foreach ($errors->all() as $error)
-          <div class="alert alert-danger">{{ $error }}</div>
-          @endforeach
-        @endif
+{{-- @if ($errors->any())
+  @foreach ($errors->all() as $error)
+      <div class="alert alert-danger">{{ $error }}</div>
+  @endforeach
+@endif --}}
 
-      @if (Session::has('msg'))
-          <div class="alert alert-danger">{{ Session::get('msg'); }}</div>
-      @endif
+  @if (Session::has('msg'))
+    <div class="alert alert-danger">{{ Session::get('msg'); }}</div>
+  @endif
 <body class="hold-transition login-page">
 <div class="login-box">
   <!-- /.login-logo -->
@@ -35,6 +35,9 @@
 
       <form action="{{url('login')}}" method="post">
         @csrf
+        @error('email')
+          <p style="color: red">{{ $message }}</p>
+        @enderror
         <div class="input-group mb-3">
           <input type="email" name="email" class="form-control" placeholder="Email">
           <div class="input-group-append">
@@ -43,6 +46,9 @@
             </div>
           </div>
         </div>
+        @error('password')
+          <p style="color: red">{{ $message }}</p>
+        @enderror
         <div class="input-group mb-3">
           <input type="password" name="password" class="form-control" placeholder="Password">
           <div class="input-group-append">

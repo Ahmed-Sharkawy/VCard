@@ -19,3 +19,14 @@
   border-radius: 15%;
   margin-bottom: 10px;
 }
+
+.content-wrapper>.content {
+  position: relative;
+}
+.formupdate {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+
+}
+

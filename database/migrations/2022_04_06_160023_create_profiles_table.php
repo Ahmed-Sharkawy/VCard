@@ -22,7 +22,7 @@ class CreateProfilesTable extends Migration
             $table->string('linkedin');
             $table->string('github');
             $table->string('profile_pic');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }

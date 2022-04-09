@@ -66,7 +66,16 @@ class UserController extends Controller
 
   public function destoyUser()
   {
+
     $user = User::find(Auth::id());
-    dd($user);
+
+    foreach ($user->profile as $value) {
+      $pas = public_path("upload/". $value->profile_pic);
+      File::delete($pas);
+    }
+    $pas = public_path("user/" . $user->img);
+    File::delete($pas);
+    $user->delete();
+    return redirect("login");
   }
 }
