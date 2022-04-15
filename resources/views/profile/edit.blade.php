@@ -40,10 +40,10 @@
 
         <div class="col-md-6 form-group">
           <label for="exampleInputPassword1">facebook</label>
-          @error('facebook')
+          @error('fb')
             <p style="color: red">{{$message}}</p>
           @enderror
-          <input type="text" name="facebook" value="{{ $res->fb }}" class="form-control" id="exampleInputPassword1" placeholder="Facebook">
+          <input type="text" name="fb" value="{{ $res->fb }}" class="form-control" id="exampleInputPassword1" placeholder="Facebook">
         </div>
 
         <div class="col-md-6 form-group">
@@ -77,7 +77,7 @@
             </div>
           </div>
         </div>
-          <img src="{{asset('upload/'.$res->profile_pic)}}" style="width: 100px" alt="" srcset="">
+          <img src="{{asset("storage/profileimage/$res->profile_pic")}}" style="width: 100px" alt="" srcset="">
       </div>
 
       <!-- /.card-body -->

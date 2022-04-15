@@ -27,6 +27,9 @@
   position: absolute;
   bottom: 20px;
   right: 22px;
+}
 
+a {
+  transition:.3s;
 }
 

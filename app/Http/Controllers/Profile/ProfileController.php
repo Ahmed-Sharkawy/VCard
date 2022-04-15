@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers\Profile;
 
+use App\Http\Requests\Profile\CreateProfileRequest;
+use App\Http\Requests\Profile\UpdateProfileRequest;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\ProfileTrait;
 use Illuminate\Http\Request;
 use App\Models\Profile;
-use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+
+  use ProfileTrait;
+
   /**
    * Display a listing of the resource.
    *
@@ -16,7 +22,9 @@ class ProfileController extends Controller
    */
   public function index()
   {
-    $profiles = Profile::where('user_id', Auth::id())->get();
+
+    $profiles = Auth::user()->profile;
+
     return view('profile.index', compact('profiles'));
   }
 
@@ -36,41 +44,11 @@ class ProfileController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(CreateProfileRequest $request)
   {
 
-    $request->validate([
-      "profile_name"  => "required|min:5",
-      "phone"         => "required|numeric",
-      "email"         => "required|email|unique:profiles",
-      "facebook"      => 'required',
-      "linkedin"      => "required",
-      "github"        => "required",
-      "profile_pic"   => "required|image",
-    ]);
-
-    if ($request->hasFile("profile_pic")) {
-
-      $ext = $request->profile_pic->getClientOriginalExtension();
-
-      $newName = date('Y-m-d') . '_' . uniqid() . '.' . $ext;
-      $img = $request->file('profile_pic');
-
-      $img->move(public_path('upload'), $newName);
-    } else {
-      $newName = 'job.png';
-    }
-
-    Profile::create([
-      "profile_name"  => $request->profile_name,
-      "phone"         => $request->phone,
-      "email"         => $request->email,
-      "fb"            => $request->facebook,
-      "linkedin"      => $request->linkedin,
-      "github"        => $request->github,
-      "profile_pic"   => $newName,
-      "user_id"       => auth()->user()->id,
-    ]);
+    $newName = $this->uploadImage( $request, $request->profile_pic ,"public/profileimage/");
+    Profile::create($request->safe()->except(['profile_pic']) + [ "user_id" => auth()->user()->id, "profile_pic" => $newName]);
 
     return redirect('home')->with("success", "added success file");
   }
@@ -105,43 +83,24 @@ class ProfileController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(UpdateProfileRequest $request, $id)
   {
-    $request->validate([
-      "profile_name"  => "required|min:5",
-      "phone"         => "required|numeric",
-      "email"         => "required|email",
-      "facebook"      => 'required',
-      "linkedin"      => "required",
-      "github"        => "required",
-      "profile_pic"   => "image",
-    ]);
 
     $profile = Profile::find($id);
 
-    $profile->profile_name = $request->profile_name;
-    $profile->phone = $request->phone;
-    $profile->email = $request->email;
-    $profile->fb = $request->facebook;
-    $profile->linkedin = $request->linkedin;
-    $profile->github = $request->github;
+    $profile->profile_name  = $request->profile_name;
+    $profile->phone         = $request->phone;
+    $profile->email         = $request->email;
+    $profile->fb            = $request->fb;
+    $profile->linkedin      = $request->linkedin;
+    $profile->github        = $request->github;
 
-
-    if (collect($request->profile_pic)->isEmpty()) {
-      $profile->profile_pic = $profile->profile_pic;
+    if ( collect($request->profile_pic)->isNotEmpty() ) {
+      $this->deletImage("public/profileimage/$profile->profile_pic");
+      $nameimge = $this->uploadImage($request, $request->profile_pic, "public/profileimage/");
+      $profile->profile_pic = $nameimge;
     }
 
-    if ($request->hasFile('profile_pic')) {
-
-      $imgfile = $request->file('profile_pic');
-      unlink(public_path('upload') . '/' . $profile->profile_pic);
-
-      $ext = $request->profile_pic->getClientOriginalExtension();
-      $img = date('Y-m-d') . '_' . uniqid() . '.' . $ext;
-
-      $imgfile->move(public_path('upload/'), $img);
-      $profile->profile_pic = $img;
-    }
     $profile->save();
     return redirect('home')->with("success", "added success file");
   }
@@ -155,7 +114,7 @@ class ProfileController extends Controller
   public function destroy($id)
   {
     $profile = Profile::find($id);
-    unlink(public_path('upload') . '/' . $profile->profile_pic);
+    $this->deletImage("public/profileimage/$profile->profile_pic");
     $profile->delete();
     return redirect('home')->with("success", "delete success row");
   }

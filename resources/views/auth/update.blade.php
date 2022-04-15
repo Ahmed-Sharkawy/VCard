@@ -63,12 +63,11 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ asset('user/'.auth()->user()->img) }}" alt="" srcset="">
+                <img src="{{ asset('storage/user/'.auth()->user()->img) }}" alt="" srcset="">
                 <!-- /.card-body -->
 
                 <div class="d-flex justify-content-between col-md-12 ">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-
+                    <button type="submit" class="btn btn-primary">Update </button>
                 </div>
           </div>
         </form>

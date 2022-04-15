@@ -11,25 +11,18 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('back/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('back/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="icon" href="{{ asset('front/Img/icon-logo.svg') }}" type="image/png">
+    <link rel="icon" href="{{ asset('front/Img/icon-logo.svg') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('back/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('back/dist/css/style.css') }}">
 </head>
-@error('name')
-    <p class="login-box-msg">{{ $message }}</p>
-@enderror
-{{-- @if ($errors->any())
-    @foreach ($errors->all() as $error)
-        <div class="alert alert-danger">{{ $error }}</div>
-    @endforeach
-@endif --}}
 
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="../../index2.html" class="h1"><b>Admin</b>LTE</a>
+                <a href="../../index2.html" class="h1"><b>VCart</b>Register</a>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Register a new membership</p>
@@ -100,7 +93,7 @@
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" name="img" class="custom-file-input" id="exampleInputFile">
-                                <label class="custom-file-label"  for="exampleInputFile">Choose file</label>
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
                             <div class="input-group-append">
                                 <span class="input-group-text">Upload</span>

@@ -36,10 +36,10 @@
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">facebook</label>
-          @error('facebook')
+          @error('fb')
             <p style="color: red">{{$message}}</p>
           @enderror
-          <input type="text" name="facebook" value="{{old('facebook')}}" class="form-control" id="exampleInputPassword1" placeholder="Facebook">
+          <input type="text" name="fb" value="{{old('fb')}}" class="form-control" id="exampleInputPassword1" placeholder="Facebook">
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">linkedin</label>

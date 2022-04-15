@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\User\UserRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\ProfileTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -12,49 +14,28 @@ use App\Models\User;
 class UserController extends Controller
 {
 
+  use ProfileTrait;
+
   public function registerview()
   {
     $user = User::findOrfail(Auth::id());
     return view('auth.update', compact('user'));
   }
 
-  public function registerupdate(Request $request)
+  public function registerupdate(UserRequest $request)
   {
-    $id = Auth::id();
-    $request->validate([
-      'name'      => "required|max:100|string",
-      'img'      => "image",
-      'username'  => "required|unique:users,username,$id",
-      'email'     => "required|email|unique:users,email,$id",
-    ]);
 
-    $user = User::find($id);
+    $user = User::find(Auth::id());
 
-    if (empty($request->password)) {
-      $user->password = $user->password;
-    } else {
+    if (!empty($request->password)) {
       $user->password = bcrypt($request->password);
     }
 
-    if (empty($request->file()->img)) {
-      $user->img = auth()->user()->img;
+    if (collect($request->img)->isNotEmpty()) {
+      $newImage = $this->uploadImage($request, $request->img, "public/user/");
+      $this->deletImage("public/user/$user->img");
+      $user->img = $newImage;
     }
-
-    if ($request->hasFile("img")) {
-
-      $image_path = public_path("user/" . $user->img);
-
-      if (File::exists($image_path)) {
-        File::delete($image_path);
-      }
-
-      $ext = $request->img->getClientOriginalExtension();
-
-      $image = date("Y-m-d") . '_' . uniqid() . "." . $ext;
-      $request->img->move(public_path("user/"), $image);
-      $user->img = $image;
-    }
-
 
     $user->name = $request->name;
     $user->username = $request->username;
@@ -70,12 +51,11 @@ class UserController extends Controller
     $user = User::find(Auth::id());
 
     foreach ($user->profile as $value) {
-      $pas = public_path("upload/". $value->profile_pic);
-      File::delete($pas);
+      $this->deletImage("public/profileimage/" . $value->profile_pic);
     }
-    $pas = public_path("user/" . $user->img);
-    File::delete($pas);
+
     $user->delete();
+    $this->deletImage("public/user/" . $user->img);
     return redirect("login");
   }
 }

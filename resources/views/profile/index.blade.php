@@ -29,12 +29,12 @@
               @foreach ($profiles as $profile)
               <tr>
                 <td>{{ $profile->profile_name }}</td>
-                <td>{{ $profile->phone }}</td>
-                <td><a href="{{ $profile->email }}" target="blank"><i class="fas fa-envelope fa-2x"></i></a></td>
+                <td><a href="tel:{{ $profile->phone }}" target="blank">{{ $profile->phone }}</a></td>
+                <td><a href="mailto:{{ $profile->email }}" target="blank"><i class="fas fa-envelope fa-2x"></i></a></td>
                 <td><a href="{{ $profile->fb }}" target="blank"><i style="color: black" class="fab fa-facebook fa-2x"></i></a></td>
                 <td><a href="{{ $profile->linkedin }}" target="blank"><i class="fab fa-linkedin fa-2x"></i></a></td>
                 <td><a href="{{ $profile->github }}" target="blank"><i class="fab fa-github fa-2x"></i></a></td>
-                <td><img src="{{ asset('upload/'.$profile->profile_pic) }}" alt="image" style="width: 50px"></td>
+                <td><img src="{{ asset("storage/profileimage/$profile->profile_pic") }}" alt="image" style="width: 50px"></td>
                 <td><a href="{{url('edit/'.$profile->id)}}" class="btn btn-info toastrDefaultSuccess" target="blank">Show OR Update</a></td>
                 <td>
                   <form action="{{url('destroy/'.$profile->id)}}" method="POST">
