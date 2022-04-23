@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Storage;
 
 Trait ProfileTrait
 {
-  public function uploadImage($request, $profile_pic, $pas)
+  public function uploadImage($request, $name, $pas)
   {
-    if ($request->hasFile($request->$profile_pic)) {
-      $ext = $profile_pic->getClientOriginalExtension();
+    if ($request->hasFile($request->$name)) {
+      $ext = $name->getClientOriginalExtension();
       $newName = date('Y-m-d') . '_' . uniqid() . '.' . $ext;
-      $profile_pic->storeAs($pas, $newName);
+      $name->storeAs($pas, $newName);
       return $newName;
     }
   }

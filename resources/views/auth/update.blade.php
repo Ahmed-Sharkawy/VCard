@@ -71,7 +71,7 @@
                 </div>
           </div>
         </form>
-        <form class="formupdate" action="{{route('destoyUser')}}" method="post">
+        <form class="formupdate" action="{{route('destroy')}}" method="post">
           @csrf
           @method("DELETE")
           <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>

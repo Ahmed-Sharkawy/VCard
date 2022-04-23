@@ -29,6 +29,15 @@ class UserRequest extends FormRequest
       'img'       => "image",
       'username'  => "required|unique:users,username," . Auth::id(),
       'email'     => "required|email|unique:users,email," . Auth::id(),
+      'password'  => "sometimes",
+    ];
+  }
+
+  public function messages()
+  {
+    return [
+      'name.required' => "add name",
+      'username.unique' => "add :attribute",
     ];
   }
 }

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\CreateRegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ProfileTrait;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use App\Models\User;
 
 class RegisterController extends Controller
@@ -15,32 +13,22 @@ class RegisterController extends Controller
 
   use ProfileTrait;
 
-  public function register()
+  // View Cerate User
+  public function cerate()
   {
     return view('auth.register');
   }
 
-  public function registervalidator(CreateRegisterRequest $request)
+  // Save Date User and Validation
+  public function store(RegisterRequest $request)
   {
 
     $nameImage = $this->uploadImage($request, $request->img, "public/user/");
 
-    $user = User::create([
-      'name'     => $request->name,
-      'username' => $request->username,
-      'img'      => $nameImage,
-      'email'    => $request->email,
-      'remember_token' => Str::random(64),
-      'password' => bcrypt($request->password),
-    ]);
+    $user = User::create($request->except(["password", "img"]) + ['password' => bcrypt($request->password), 'img' => $nameImage,]);
 
     Auth::login($user, true);
     return redirect("login");
   }
 
-  public function registerview()
-  {
-    $user = User::findOrfail(Auth::id());
-    return view('auth.update', compact('user'));
-  }
 }
