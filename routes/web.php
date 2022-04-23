@@ -17,42 +17,53 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-  return view('auth.login');
-})->middleware("guest");
+// Route::get("/",function () { return redirect()->back();})->name("back");
+
+Route::get('/profile/{user}/{bas?}', [UserController::class, "index"]);
 
 
 Route::group(["middleware" => "guest"], function () {
 
   // register
-  Route::get('register', [RegisterController::class, 'register']);
-  Route::post('registers', [RegisterController::class, 'registervalidator']);
+  Route::get('register', [RegisterController::class, 'cerate']);
+  Route::post('registers', [RegisterController::class, 'store']);
 
   // login
-  Route::get('login', [LoginController::class, 'login'])->name('login');
-  Route::post('login', [LoginController::class, 'loginvalidator']);
+  Route::get('login', [LoginController::class, 'create'])->name('login');
+  Route::post('login', [LoginController::class, 'store']);
 });
 
 
 Route::group(["middleware" => "auth"], function () {
 
-  // registerViewUpdate
-  Route::get('registerview', [UserController::class, 'registerview']);
-  Route::put('registerupdate', [UserController::class, 'registerupdate']);
-  Route::delete('destoyUser', [UserController::class, 'destoyUser']);
-
-
   // logout
   Route::get('logout', [LoginController::class, 'logout']);
 
-  // Profile
+  // register Edit
+  Route::get('registerview', [UserController::class, 'edit']);
+  Route::put('registerupdatee', [UserController::class, 'update']);
+
+  // User destroy User
+  Route::delete('destoyUser', [UserController::class, 'destroy'])->name("destroy");
+
+// All Route Profile Home
+
+  // Profile Home
   Route::get('home', [ProfileController::class, "index"]);
 
+  // Profile Create
   Route::get('addlink', [ProfileController::class, "create"]);
   Route::post('addlink', [ProfileController::class, "store"]);
 
+  // Profile Edit
   Route::get('edit/{id}', [ProfileController::class, "edit"]);
   Route::put('update/{id}', [ProfileController::class, "update"]);
 
+  // Profile destroy
   Route::delete('destroy/{id}', [ProfileController::class, "destroy"]);
+
+    Route::group(["middleware" => "showuser"], function () {
+      Route::get("showuser",[UserController::class, "showuser"]);
+    });
 });
+

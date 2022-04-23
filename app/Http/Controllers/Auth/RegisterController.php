@@ -2,54 +2,33 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Traits\ProfileTrait;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
-  public function register()
+
+  use ProfileTrait;
+
+  // View Cerate User
+  public function cerate()
   {
     return view('auth.register');
   }
 
-  public function registervalidator(Request $request)
+  // Save Date User and Validation
+  public function store(RegisterRequest $request)
   {
-    $request->validate([
-      'name'        => 'required|min:3|max:20',
-      'username'    => 'required|unique:users',
-      'email'       => 'required|email|unique:users',
-      'img'         => 'required|image',
-      'password'    => 'required|min:3|max:20',
-      'repassword'  => 'required|min:5|max:20|same:password',
-    ]);
 
+    $nameImage = $this->uploadImage($request, $request->img, "public/user/");
 
-    if ($request->hasFile("img")) {
-      $ext = $request->img->getClientOriginalExtension();
-
-      $image = date("Y-m-d") . '_' . uniqid() . "." . $ext;
-      $request->img->move(public_path("user/"), $image);
-    }
-
-    $user = User::create([
-      'name'     => $request->name,
-      'username' => $request->username,
-      'img'      => $image,
-      'email'    => $request->email,
-      'remember_token' => Str::random(64),
-      'password' => bcrypt($request->password),
-    ]);
+    $user = User::create($request->except(["password", "img"]) + ['password' => bcrypt($request->password), 'img' => $nameImage,]);
 
     Auth::login($user, true);
     return redirect("login");
   }
 
-  public function registerview()
-  {
-    $user = User::findOrfail(Auth::id());
-    return view('auth.update', compact('user'));
-  }
 }

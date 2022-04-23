@@ -63,14 +63,18 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{ asset('user/'.auth()->user()->img) }}" alt="" srcset="">
+                <img src="{{ asset('storage/user/'.auth()->user()->img) }}" alt="" srcset="">
                 <!-- /.card-body -->
 
                 <div class="d-flex justify-content-between col-md-12 ">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <a href="" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    <button type="submit" class="btn btn-primary">Update </button>
                 </div>
           </div>
+        </form>
+        <form class="formupdate" action="{{route('destroy')}}" method="post">
+          @csrf
+          @method("DELETE")
+          <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
         </form>
     </div>
 @endsection

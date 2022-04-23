@@ -13,9 +13,27 @@
   background-color: transparent;
 }
 
+.nav-sidebar .nav-link p{
+  padding-left: 5px;
+}
+
 .card-body img {
   width: 100px;
   height: 100px;
   border-radius: 15%;
   margin-bottom: 10px;
 }
+
+.content-wrapper>.content {
+  position: relative;
+}
+.formupdate {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+}
+
+a {
+  transition:.3s;
+}
+
