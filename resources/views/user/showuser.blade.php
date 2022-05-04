@@ -1,50 +1,36 @@
-@extends("layout.blank")
+@extends('layout.layout')
 
-@section("addlink")
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Responsive Hover Table</h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover text-nowrap text-center">
+@section('title')
+    Home Profile
+@endsection
+@section('title_page')
+    Home Page
+@endsection
+@section('add-content')
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped table-checkable table-highlight-head mb-4 text-center">
             <thead>
-              <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>profile_count</th>
-                <th>Img</th>
-              </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>IMAGE</th>
+                    <th>Showprofile</th>
+                </tr>
             </thead>
             <tbody>
-              @foreach ($users as $user)
-              <tr>
-                <td> {{ $user->id }} </td>
-                <td> {{ $user->name }} </td>
-                <td> {{ $user->username }} </td>
-                <td> {{ $user->email }} </td>
-                <td> {{ $user->profile_count }} </td>
-                <td><img src="{{ asset("storage/user/$user->img") }}" alt="image" style="width: 50px"></td>
-                <td><a href="{{url('edit/'.$user->id)}}" class="btn btn-info toastrDefaultSuccess" target="blank">Show OR Update</a></td>
-                <td>
-                  <form action="{{url('destroy/'.$user->id)}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')" >Delet</button>
-                  </form>
-                </td>
-              </tr>
-              @endforeach
+                @foreach ($users as $user)
+                    <tr>
+                        <td> {{ $user->id }} </td>
+                        <td> {{ $user->name }} </td>
+                        <td> {{ $user->username }} </td>
+                        <td> {{ $user->email }} </td>
+                        <td class="image"><div class="usr-img-frame mr-2 rounded-circle"> <img alt="{{ $user->name }}" class="img-fluid rounded-circle" src="{{ asset("storage/user/$user->img") }}"></div></td>
+                        <td> <a href="{{ route("show.profile",$user->id) }}"><img alt="Green Find User Male icon" srcset="https://img.icons8.com/ios-glyphs/2x/26e07f/find-user-male.png 2x" style="height: 28px; width: 28px;"></a> </td>
+                    </tr>
+                @endforeach
             </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
-      <!-- /.card -->
+        </table>
     </div>
-  </div>
 @endsection

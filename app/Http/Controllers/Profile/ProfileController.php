@@ -28,35 +28,34 @@ class ProfileController extends Controller
   public function store(CreateProfileRequest $request)
   {
     $newName = $this->uploadImage($request, $request->profile_pic, "public/profileimage/");
-    Profile::create($request->except(['profile_pic']) + ["user_id" => auth()->user()->id, "profile_pic" => $newName]);
-    return redirect('home')->with("success", "Profile added successfully");
+    Profile::create([ "user_id" => auth()->user()->id, "profile_pic" => $newName ] + $request->validated());
+    return redirect()->route('home')->with("success", "Profile added successfully");
   }
 
-  public function edit($id)
+  public function edit(Profile $profile)
   {
-    $profile = Profile::findOrFail($id);
     return view('profile.edit', compact('profile'));
   }
 
-  public function update(UpdateProfileRequest $request, $id)
+  public function update(UpdateProfileRequest $request, Profile $profile)
   {
-    $profile = Profile::find($id);
     if (collect($request->profile_pic)->isNotEmpty()) {
+
       $this->deletImage("public/profileimage/$profile->profile_pic");
       $nameimge = $this->uploadImage($request, $request->profile_pic, "public/profileimage/");
-      $profile->update($request->except(["profile_pic"]) + ["profile_pic" => $nameimge]);
-    } else {
-      $profile->update($request->except(["profile_pic"]));
+
+      $profile->update(["profile_pic" => $nameimge] + $request->validated());
+      return redirect()->route('home')->with("success", "Profile Updated successfully");
     }
 
-    return redirect('home')->with("success", "Profile Updated successfully");
+    $profile->update($request->validated());
+    return redirect()->route('home')->with("success", "Profile Updated successfully");
   }
 
-  public function destroy($id)
+  public function destroy(Profile $profile)
   {
-    $profile = Profile::find($id);
     $this->deletImage("public/profileimage/$profile->profile_pic");
     $profile->delete();
-    return redirect('home')->with("success", "Profile Deleted successfully");
+    return redirect()->route('home')->with("success", "Profile Deleted successfully");
   }
 }

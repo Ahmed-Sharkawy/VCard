@@ -16,18 +16,17 @@ class LoginController extends Controller
 
   public function store(LoginRequest $request)
   {
-    $data = ['email' => $request->email, 'password' => $request->password];
 
-    if (Auth::attempt($data)) {
-      return redirect('home');
+    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+      return redirect()->route('home');
     }
 
-    return redirect('login')->with('success', 'email or passowrd not valid');
+    return redirect()->route("/")->with('success', 'email or passowrd not valid');
   }
 
   public function logout()
   {
-    Auth::logout(false);
-    return redirect("login");
+    Auth::logout();
+    return redirect()->route('/');
   }
 }

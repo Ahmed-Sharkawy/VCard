@@ -1,0 +1,16 @@
+.form-admin-style {
+  position: relative;
+}
+
+.form-admin-style-delete {
+    right: 3%;
+    position: absolute;
+    bottom: 3%;
+  }
+
+  .rounded-admin {
+    margin: 2% 0 2% 2%;
+  }
+  .button-update-admin {
+    margin: 2% 0 2% 18%;
+  }

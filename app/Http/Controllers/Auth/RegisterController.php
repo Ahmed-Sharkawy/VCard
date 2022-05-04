@@ -25,10 +25,10 @@ class RegisterController extends Controller
 
     $nameImage = $this->uploadImage($request, $request->img, "public/user/");
 
-    $user = User::create($request->except(["password", "img"]) + ['password' => bcrypt($request->password), 'img' => $nameImage,]);
+    $user = User::create(['img' => $nameImage, 'password' => bcrypt($request->password)] + $request->validated());
 
     Auth::login($user, true);
-    return redirect("login");
+    return redirect()->route("home");
   }
 
 }

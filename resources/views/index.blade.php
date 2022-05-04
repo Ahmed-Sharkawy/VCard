@@ -49,7 +49,6 @@
         </section>
         <div class="front-smooth"></div>
     </div>
-    <div class="fixed-logo"><a href="https://new.megatrust.net/" target="_blank"><img src="Img/logo-light.svg"alt="logo"></a></div>
     <script src="{{ asset('front/Js/script.js') }}"></script>
 </body>
 

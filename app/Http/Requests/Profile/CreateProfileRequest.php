@@ -24,7 +24,7 @@ class CreateProfileRequest extends FormRequest
   public function rules()
   {
     return [
-      "profile_name"  => "required|min:5",
+      "profile_name"  => "required|min:5|regex:/^[a-zA-Z0-9]+$/",
       "phone"         => "required|numeric",
       "email"         => "required|email",
       "fb"            => 'required|url',

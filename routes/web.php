@@ -1,69 +1,76 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+|------------------------------------------------------------
+|                      |   Web Routes   |
+|------------------------------------------------------------
 */
+Route::get('profile/{user:username}/{profile_name?}', [UserController::class, "index"]);
 
-// Route::get("/",function () { return redirect()->back();})->name("back");
-
-Route::get('/profile/{user}/{bas?}', [UserController::class, "index"]);
-
-
+/*
+|------------------------------------------------------------
+|                      |   Group guest   |
+|------------------------------------------------------------
+*/
 Route::group(["middleware" => "guest"], function () {
 
   // register
-  Route::get('register', [RegisterController::class, 'cerate']);
-  Route::post('registers', [RegisterController::class, 'store']);
+  Route::get('register', [RegisterController::class, 'cerate'])->name("register.view");
+  Route::post('registers', [RegisterController::class, 'store'])->name("register.cerate");
 
   // login
-  Route::get('login', [LoginController::class, 'create'])->name('login');
-  Route::post('login', [LoginController::class, 'store']);
+  Route::get('/', [LoginController::class, 'create'])->name('/');
+  Route::post('login', [LoginController::class, 'store'])->name("auth.login");
 });
 
+/*
+|------------------------------------------------------------
+|                      |   Group Auth   |
+|------------------------------------------------------------
+*/
 
 Route::group(["middleware" => "auth"], function () {
 
   // logout
-  Route::get('logout', [LoginController::class, 'logout']);
+  Route::get('logout', [LoginController::class, 'logout'])->name("logout");
 
   // register Edit
-  Route::get('registerview', [UserController::class, 'edit']);
-  Route::put('registerupdatee', [UserController::class, 'update']);
+  Route::get('updateuser', [UserController::class, 'edit'])->name("view.update.user");
+  Route::put('updateuser/{user}', [UserController::class, 'update'])->name("update.user");
 
   // User destroy User
-  Route::delete('destoyUser', [UserController::class, 'destroy'])->name("destroy");
+  Route::delete('destoyuser', [UserController::class, 'destroy'])->name("destoy.user");
 
-// All Route Profile Home
-
+/*
+|------------------------------------------------------------
+|              |   All Route Profile Home   |
+|------------------------------------------------------------
+*/
   // Profile Home
-  Route::get('home', [ProfileController::class, "index"]);
+  Route::get('home', [ProfileController::class, "index"])->name('home');
 
   // Profile Create
-  Route::get('addlink', [ProfileController::class, "create"]);
-  Route::post('addlink', [ProfileController::class, "store"]);
+  Route::get('addprofile', [ProfileController::class, "create"])->name("view.add.profile");
+  Route::post('addprofile', [ProfileController::class, "store"])->name("create.profile");
 
   // Profile Edit
-  Route::get('edit/{id}', [ProfileController::class, "edit"]);
-  Route::put('update/{id}', [ProfileController::class, "update"]);
+  Route::post('edit/{profile}', [ProfileController::class, "edit"])->name("view.edit.profile");
+  Route::put('update/{profile}', [ProfileController::class, "update"])->name("update.profile");
 
   // Profile destroy
-  Route::delete('destroy/{id}', [ProfileController::class, "destroy"]);
+  Route::delete('destroy/{profile}', [ProfileController::class, "destroy"])->name("destroy.profile");
 
     Route::group(["middleware" => "showuser"], function () {
-      Route::get("showuser",[UserController::class, "showuser"]);
+      Route::get("showuser",[AdminController::class, "showAllUser"])->name("show.user");
+      Route::get("showprofile/{id}", [AdminController::class, "showUserProfiles"])->name("show.profile");
     });
 });
 
