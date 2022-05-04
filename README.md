@@ -22,7 +22,7 @@ A website that allows users to make their own special card and share it for his 
 
 ## Support
 
-For support ,email dainatayel913@gmail.com
+For support ,email ahmedmaher0110@gmail.com
 
 ## License
 
